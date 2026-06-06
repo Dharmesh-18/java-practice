@@ -92,7 +92,7 @@ public class ExpenseTracker {
     static void saveAndExit(ArrayList<Expense> expenses) {
         System.out.println("Saving expenses...");
         try(
-            FileWriter fw = new FileWriter("Expense.txt", true);
+            FileWriter fw = new FileWriter("Expense.txt", false);
         ) {
             for(Expense e : expenses) {
                 fw.append(e.toString());
@@ -106,12 +106,20 @@ public class ExpenseTracker {
     }
 
     static ArrayList<Expense> viewExpensesFromFile(ArrayList<Expense> expenses) {
+
+        File file = new File("Expense.txt");
+        if (!file.exists()) {
+            return expenses;
+        }
+
+        expenses.clear();
         try(Scanner filScanner = new Scanner(new File("Expense.txt"));)
         {
             while(filScanner.hasNextLine()) {
 
                 String[] line = (filScanner.nextLine().split(" "));
                 Expense newExpense = new Expense(Integer.parseInt(line[0]), line[1], line[2], LocalDate.parse(line[3]));
+                expenses.add(newExpense);
 
                 System.out.println(newExpense);
                 
@@ -127,6 +135,7 @@ public class ExpenseTracker {
 
         ArrayList<Expense> expenses = new ArrayList<>();
 
+        viewExpensesFromFile(expenses);
         
         int choice = 0;
 
