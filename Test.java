@@ -53,6 +53,14 @@ class Student implements Comparable<Student> {
         this.marks = marks;
     }
 
+
+    @Override
+    public String toString() {
+        return "Student [id=" + id + ", name=" + name + ", marks=" + marks + "]";
+    }
+
+    
+
     
 }
 
@@ -86,19 +94,19 @@ class Test {
         students.add(new Student(3, "Jane", 85));
         students.add(new Student(4, "Doe", 70));
         students.add(new Student(5, "Smith", 95));
+
         System.out.println("Before sorting:");
+        System.out.println(students);
         
-        for (Student student : students) {
-            System.out.println(student.getId() + ", " + student.getName() + ", " + student.getMarks());
-        }
-
-        System.out.println("After sorting:");
-
+        System.out.println("After sorting by id:");
         Collections.sort(students, new SortById());
+        System.out.println(students);
 
-        for(Student student : students) {
-            System.out.println(student.getId() + ", " + student.getName() + ", " + student.getMarks());
-        }
+        System.out.println("After sorting by name:");
+        students.sort(Comparator.comparing(Student::getName));
+        students.forEach(System.out::println);
+
+        
 
         
     }
